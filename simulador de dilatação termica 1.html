@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Dilatação Térmica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px;
+        }
+        #result {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Simulador de Dilatação Térmica</h1>
+        <form id="thermalExpansionForm">
+            <label for="initialLength">Comprimento inicial (L<sub>0</sub>) em metros:</label>
+            <input type="number" id="initialLength" step="0.01" required>
+            
+            <label for="temperatureChange">Variação de temperatura (ΔT) em graus Celsius:</label>
+            <input type="number" id="temperatureChange" step="0.01" required>
+            
+            <label for="coefficient">Coeficiente de dilatação térmica (α) em 1/°C:</label>
+            <input type="number" id="coefficient" step="0.00001" required>
+            
+            <button type="button" onclick="calculateExpansion()">Calcular</button>
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function calculateExpansion() {
+            const L0 = parseFloat(document.getElementById('initialLength').value);
+            const deltaT = parseFloat(document.getElementById('temperatureChange').value);
+            const alpha = parseFloat(document.getElementById('coefficient').value);
+
+            if (isNaN(L0) || isNaN(deltaT) || isNaN(alpha)) {
+                alert('Por favor, preencha todos os campos corretamente.');
+                return;
+            }
+
+            const deltaL = L0 * alpha * deltaT;
+            const finalLength = L0 + deltaL;
+
+            document.getElementById('result').innerHTML = `
+                <p>Comprimento inicial (L<sub>0</sub>): ${L0} m</p>
+                <p>Variação de temperatura (ΔT): ${deltaT} °C</p>
+                <p>Coeficiente de dilatação térmica (α): ${alpha} 1/°C</p>
+                <p>Comprimento final (L<sub>f</sub>): ${finalLength.toFixed(4)} m</p>
+                <p>Variação no comprimento (ΔL): ${deltaL.toFixed(4)} m</p>
+            `;
+        }
+    </script>
+</body>
+</html>
